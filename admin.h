@@ -1,5 +1,6 @@
 #include <cstring>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 class Admin{
@@ -16,20 +17,21 @@ class Admin{
     }
 };
 
-void initAdmins(Admin A[]){
+void initAdmins(Admin Ad[]){
     //add code
     fstream f1;
     f1.open("admins.txt", ios::in);
     int i=0;
-    while(!EOF){
-        f1.read( (char*)&A[i], sizeof(A[i]) );
+    while(!f1.eof()){
+        f1.read( (char*)&Ad[i], sizeof(Ad[i]) );
         i++;
     }
-
+    cout<<"Admins information read\n";
     f1.close();
 }
 
 class Agent{
+    public:
     string name;
     string email;
     string phone_no;
@@ -49,16 +51,18 @@ class Agent{
     }
 };
 
-void initAgents(Agent A[]){
+void initAgents(Agent Ag[], int &agent_count){
     //add code
+    agent_count=0;
     fstream f1;
     f1.open("agents.txt", ios::in);
     int i=0;
-    while(!EOF){
-        f1.read( (char*)&A[i], sizeof(A[i]) );
+    while(!f1.eof()){
+        f1.read( (char*)&Ag[i], sizeof(Ag[i]) );
         i++;
     }
-
+    cout<<"Agent details initiated\n";
+    agent_count = i;
     f1.close();
 }
 
