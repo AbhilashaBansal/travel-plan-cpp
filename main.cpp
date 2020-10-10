@@ -4,9 +4,11 @@
 #include "graphs.h"
 #include "customers.h"
 #include "admin.h"
+#include <cstdlib>
 using namespace std;
 
 //global variables
+Admin Ad[3];
 Agent Ag[15];
 map <string, int> m;
 Trie CT;
@@ -29,17 +31,52 @@ void initLocations(){
 //Admin Portal
 void visit_admin_portal(){
     //create login fn
-    system("clear");
-    int x;
-    cout<<"1: Edit the Locations\n";
-    cout<<"2: Update list of Agents\n";
-    cout<<"3: View all Customers\n";
-    cout<<"4: View all Bookings\n";
-    cout<<"5: Navigate back\n";
-    cout<<"6: Exit\n";
+    bool success = login_admin(Ad,2);
+    if(success){
+        system("clear");
+        cout<<"WELCOME TO ADMIN PORTAL\n";
+        int x;
+        cout<<"1: Edit the Locations\n";
+        cout<<"2: Update list of Agents\n";
+        cout<<"3: View all Customers\n";
+        cout<<"4: View all Bookings\n";
+        cout<<"5: Navigate back\n";
+        cout<<"6: Exit\n";
+        cin>>x;
+        switch(x){
+            case 3: {
+                system("clear");
+                view_all_customers();
+                cout<<"Press any key, followed by 'enter' key, to navigate back.\n";
+                char c;
+                cin>>c;
+                //FIX THIS FLOW OF FN CALL & FLOW OF EXECUTION
+                //FIX PASSING OF CONTROL TO LOGIN FN, THE SECOND TIME USER VISITS ADMIN PORTAL
+                //visit_admin_portal();
+                break;
+            }
+            case 6: {
+                system("clear");
+                cout<<"Thank you for using the Travel Plan Management Software!\n";
+                cout<<"Built by ABHILASHA BANSAL & ABHAY GUPTA\n";
+                cout<<"Exitting now ...\n";
+                break;
+            }
+            default: {
+                cout<<"Invalid Input\n";
+                visit_admin_portal();
+            }
+        }
+        
+    }
+    else{
+        cout<<"Login failed, please enter correct details again.\n";
+        cout<<"Press any key, followed by 'enter' key, to navigate back.\n";
+        char c;
+        cin>>c;
+        visit_admin_portal();
+    }
     cout<<"This portal is still under development.\n";
-    //cin>>x;
-    //switch(x){}
 }
 
 //Customer Portal
@@ -129,22 +166,27 @@ void enter(){
 }
 
 int main(){
-    Admin Ad[3];
+    
+    //initialising admins
     initAdmins(Ad);
-    //cout<<Ad[0].name<<" "<<Ad[1].password<<endl;
 
-    int agent_count = 0;
+    int agent_count;
+    //initialising travel agents
     initAgents(Ag, agent_count);
     cout<<agent_count<<" agents found!\n";
     cout<<Ag[0].name<<endl;
 
+    //initialising available travel locations
     initLocations();
     for(auto p: m){
         cout<<p.first<<" ";
     }
     cout<<endl;
 
+    cout<<&(CT)<<endl;
+    //initialisng customers
     initCustomers(CT);
+
     char x;
     cout<<"Press any key, followed by 'enter' key, to start program.\n";
     cin>>x;
