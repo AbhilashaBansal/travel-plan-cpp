@@ -15,6 +15,13 @@ class Admin{
         phone_no = p;
         password = pass; 
     }
+    bool login(string name, string password){
+        if(name==this->name && this->password==password){
+            cout<<"here\n";
+            return true;
+        }
+        return false;
+    }
 };
 
 void initAdmins(Admin Ad[]){
@@ -28,6 +35,24 @@ void initAdmins(Admin Ad[]){
     }
     cout<<"Admins information read\n";
     f1.close();
+}
+
+bool login_admin(Admin Ad[], int no=2){
+    string name, password;
+    system("clear");
+    cout<<"Enter name : ";
+    cin.ignore();
+    getline(cin, name);
+    cout<<"Enter password : \n";
+    cin>>password;
+    for(int i=0; i<no; i++){
+        bool p = Ad[i].login(name, password);
+        if(p){
+            cout<<"here1\n";
+            return true;
+        }
+    }
+    return false;
 }
 
 class Agent{
@@ -74,4 +99,21 @@ string assign_Agent(Agent A[], int no){
     count = (count+1)%no;
     f.write( (char*)&count, sizeof(int) );
     return A[count].getName();
+}
+
+//view all customers
+void view_all_customers(){
+    int total_cust=0;
+    fstream f1;
+    Customer C1;
+    f1.open("customers.txt", ios::in);
+    while(!f1.eof()){
+        f1.read( (char*)&C1, sizeof(Customer) );
+        cout<<C1.name<<" "<<C1.address<<" "<<C1.phone_no<<" "<<C1.email<<endl;
+        total_cust++;
+        //ERROR: LAST OBJECT IS BEING READ TWICE
+        //Fix it
+    }
+    cout<<"Total customers are: "<<total_cust<<endl;
+    f1.close();
 }

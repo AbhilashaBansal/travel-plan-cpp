@@ -3,6 +3,7 @@
 #include <cstring>
 #include <list>
 #include <unordered_map>
+#include <cstdlib>
 using namespace std;
 
 void visit_customer_portal();
@@ -26,7 +27,7 @@ class Trie{
         root = new trie_node('\0');
         customer_count = 0;
     }
-
+    
     //insert a record into trie
     void insert(string email){
         trie_node* temp = root;
@@ -73,7 +74,10 @@ class Customer{
     string email;
     string phone_no;
     string password;
-    Customer(string a="", string b="", string c="", string d="", string e=""){
+    Customer(){
+        name = address = email = phone_no = password = "";
+    }
+    Customer(string a, string b, string c, string d, string e){
         name = a;
         address = b;
         email = c;
@@ -85,6 +89,7 @@ class Customer{
 void initCustomers(Trie T){
     fstream f1;
     Customer C;
+
     f1.open("customers.txt", ios::in);
     //int i=0;
     while(!f1.eof()){
