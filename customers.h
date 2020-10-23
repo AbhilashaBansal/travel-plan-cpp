@@ -92,12 +92,12 @@ void initCustomers(Trie T){
 
     f1.open("customers.txt", ios::in);
     //int i=0;
-    while(!f1.eof()){
+    do{
         f1.read( (char*)&C, sizeof(Customer) );
         string email = C.email;
         T.insert(email);
         //i++;
-    }
+    }while(!f1.eof());
     cout<<"Initiated customer trie\n";
     f1.close();
 }

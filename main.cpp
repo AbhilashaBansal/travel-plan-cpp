@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 #include <map>
 #include <cstring>
 #include "graphs.h"
@@ -12,6 +13,9 @@ Admin Ad[3];
 Agent Ag[15];
 map <string, int> m;
 Trie CT;
+GraphInt cost_graph;
+GraphFloat time_graph;
+bool admin_logged_in = false;
 
 void enter(); //forward declaration 
 
@@ -31,13 +35,14 @@ void initLocations(){
 //Admin Portal
 void visit_admin_portal(){
     //create login fn
-    bool success = login_admin(Ad,2);
+    bool success = admin_logged_in || login_admin(Ad,2);
     if(success){
+        admin_logged_in = true;
         system("clear");
         cout<<"WELCOME TO ADMIN PORTAL\n";
         int x;
-        cout<<"1: Edit the Locations\n";
-        cout<<"2: Update list of Agents\n";
+        cout<<"1: Add a Location\n";
+        cout<<"2: Add an Agent\n";
         cout<<"3: View all Customers\n";
         cout<<"4: View all Bookings\n";
         cout<<"5: Navigate back\n";
@@ -50,13 +55,18 @@ void visit_admin_portal(){
                 cout<<"Press any key, followed by 'enter' key, to navigate back.\n";
                 char c;
                 cin>>c;
-                //FIX THIS FLOW OF FN CALL & FLOW OF EXECUTION
-                //FIX PASSING OF CONTROL TO LOGIN FN, THE SECOND TIME USER VISITS ADMIN PORTAL
-                //visit_admin_portal();
+                visit_admin_portal();
+                break;
+            }
+            case 5: {
+                system("clear");
+                admin_logged_in = false;
+                enter();
                 break;
             }
             case 6: {
                 system("clear");
+                admin_logged_in = false;
                 cout<<"Thank you for using the Travel Plan Management Software!\n";
                 cout<<"Built by ABHILASHA BANSAL & ABHAY GUPTA\n";
                 cout<<"Exitting now ...\n";
@@ -64,7 +74,7 @@ void visit_admin_portal(){
             }
             default: {
                 cout<<"Invalid Input\n";
-                visit_admin_portal();
+                enter();
             }
         }
         
@@ -74,9 +84,9 @@ void visit_admin_portal(){
         cout<<"Press any key, followed by 'enter' key, to navigate back.\n";
         char c;
         cin>>c;
-        visit_admin_portal();
+        enter();
     }
-    cout<<"This portal is still under development.\n";
+    //cout<<"This portal is still under development.\n";
 }
 
 //Customer Portal
@@ -111,6 +121,22 @@ void visit_customer_portal(){
             break;
         }
         case 3: {
+            system("clear");
+            string dest;
+            cout<<"Enter the name of a destination in correct format: ";
+            cin>>dest;
+            map<string, string> parent;
+            int cost = dijk_cost("Delhi", dest, parent, cost_graph.m);
+            if(cost==-1){
+                cout<<"Location not found!!\n";
+                cout<<"Redirecting you back, press any key followed by 'Enter' to proceed.\n";
+                char c;
+                cin>>c;
+                visit_customer_portal();
+            }
+            else{
+                cout<<"The minimum cost plan is for: "<<cost<<"INR.\n";
+            }
             break;
         }
         case 4: {
@@ -165,6 +191,26 @@ void enter(){
     }
 }
 
+//Init cost and time graphs after reading places.txt
+void initGraphs(){
+    //add code
+    int edges=0;
+    Edge E1;
+    fstream f1;
+    f1.open("places.txt", ios::in);
+    f1.read( (char*)&E1, sizeof(E1) );
+    cost_graph.addEdge(E1.dest_1, E1.dest_2, E1.cost);
+    edges++;
+    while(!f1.eof()){
+        f1.read( (char*)&E1, sizeof(E1) );
+        cost_graph.addEdge(E1.dest_1, E1.dest_2, E1.cost);
+        //cout<<"COOL ";
+        edges++;
+    }
+    cout<<"Graphs initiated, "<<edges<<" edges created!\n";
+    f1.close();
+}
+
 int main(){
     
     //initialising admins
@@ -187,6 +233,23 @@ int main(){
     //initialisng customers
     initCustomers(CT);
 
+    //Initialising cost & time graphs
+    initGraphs();
+    map <string, string> parent;
+    string child = "London";
+    cout<<dijk_cost("Delhi", child, parent, cost_graph.m)<<endl;
+    
+    while(parent[child]!="Delhi"){
+        cout<<child<<"<--";
+        child = parent[child];
+    }
+    cout<<endl;
+    vector <string> w;
+    cout<<dijk_time("Delhi", "London", w, time_graph.m)<<endl;
+    for(string s: w){
+        cout<<s<<" ";
+    }
+    cout<<endl;
     char x;
     cout<<"Press any key, followed by 'enter' key, to start program.\n";
     cin>>x;
