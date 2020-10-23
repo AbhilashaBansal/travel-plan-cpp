@@ -1,6 +1,6 @@
-#include <cstring>
 #include <iostream>
 #include <fstream>
+#include <cstring>
 using namespace std;
 
 class Admin{
@@ -26,13 +26,13 @@ class Admin{
 
 void initAdmins(Admin Ad[]){
     //add code
-    fstream f1;
+    ifstream f1;
     f1.open("admins.txt", ios::in);
     int i=0;
-    while(!f1.eof()){
-        f1.read( (char*)&Ad[i], sizeof(Ad[i]) );
+    do{
+        f1.read( (char*)&Ad[i], sizeof(Admin) );
         i++;
-    }
+    }while(!f1.eof());
     cout<<"Admins information read\n";
     f1.close();
 }
@@ -43,12 +43,11 @@ bool login_admin(Admin Ad[], int no=2){
     cout<<"Enter name : ";
     cin.ignore();
     getline(cin, name);
-    cout<<"Enter password : \n";
+    cout<<"Enter password : ";
     cin>>password;
     for(int i=0; i<no; i++){
         bool p = Ad[i].login(name, password);
         if(p){
-            cout<<"here1\n";
             return true;
         }
     }
@@ -79,13 +78,13 @@ class Agent{
 void initAgents(Agent Ag[], int &agent_count){
     //add code
     agent_count=0;
-    fstream f1;
+    ifstream f1;
     f1.open("agents.txt", ios::in);
     int i=0;
-    while(!f1.eof()){
-        f1.read( (char*)&Ag[i], sizeof(Ag[i]) );
+    do{
+        f1.read( (char*)&Ag[i], sizeof(Agent) );
         i++;
-    }
+    }while(!f1.eof());
     cout<<"Agent details initiated\n";
     agent_count = i;
     f1.close();
@@ -104,16 +103,16 @@ string assign_Agent(Agent A[], int no){
 //view all customers
 void view_all_customers(){
     int total_cust=0;
-    fstream f1;
+    ifstream f1;
     Customer C1;
     f1.open("customers.txt", ios::in);
-    while(!f1.eof()){
+    do{
         f1.read( (char*)&C1, sizeof(Customer) );
         cout<<C1.name<<" "<<C1.address<<" "<<C1.phone_no<<" "<<C1.email<<endl;
         total_cust++;
         //ERROR: LAST OBJECT IS BEING READ TWICE
         //Fix it
-    }
+    }while(!f1.eof());
     cout<<"Total customers are: "<<total_cust<<endl;
     f1.close();
 }
