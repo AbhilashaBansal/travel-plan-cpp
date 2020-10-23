@@ -29,10 +29,10 @@ void initAdmins(Admin Ad[]){
     ifstream f1;
     f1.open("admins.txt", ios::in);
     int i=0;
-    do{
+    while(!f1.eof()){
         f1.read( (char*)&Ad[i], sizeof(Admin) );
         i++;
-    }while(!f1.eof());
+    }
     cout<<"Admins information read\n";
     f1.close();
 }
@@ -81,10 +81,12 @@ void initAgents(Agent Ag[], int &agent_count){
     ifstream f1;
     f1.open("agents.txt", ios::in);
     int i=0;
-    do{
+    f1.read( (char*)&Ag[i], sizeof(Agent) );
+    i++;
+    while(!f1.eof()){
         f1.read( (char*)&Ag[i], sizeof(Agent) );
         i++;
-    }while(!f1.eof());
+    }
     cout<<"Agent details initiated\n";
     agent_count = i;
     f1.close();
