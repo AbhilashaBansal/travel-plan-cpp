@@ -1,8 +1,10 @@
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
 #include <cstring>
 using namespace std;
 
+// ------------------ADMIN FNS-----------------------
 class Admin{
     string name;
     string email;
@@ -54,6 +56,7 @@ bool login_admin(Admin Ad[], int no=2){
     return false;
 }
 
+// ----------------AGENTS-------------------
 class Agent{
     public:
     string name;
@@ -76,45 +79,92 @@ class Agent{
 };
 
 void initAgents(Agent Ag[], int &agent_count){
-    //add code
     agent_count=0;
     ifstream f1;
     f1.open("agents.txt", ios::in);
     int i=0;
     f1.read( (char*)&Ag[i], sizeof(Agent) );
-    i++;
+
     while(!f1.eof()){
-        f1.read( (char*)&Ag[i], sizeof(Agent) );
         i++;
+        f1.read( (char*)&Ag[i], sizeof(Agent) );
     }
     cout<<"Agent details initiated\n";
     agent_count = i;
     f1.close();
 }
 
-string assign_Agent(Agent A[], int no){
-    fstream f;
-    int count;
-    f.open("count.txt", ios::in);
-    f.read( (char*)&count, sizeof(int) );
-    count = (count+1)%no;
-    f.write( (char*)&count, sizeof(int) );
-    return A[count].getName();
+string assign_Agent(Agent A[], int no=10){
+    int c = rand()%(no-1);
+    return A[c].getName();
 }
 
+// -----------------ADMIN FUNCTIONS------------------
 //view all customers
 void view_all_customers(){
     int total_cust=0;
     ifstream f1;
     Customer C1;
     f1.open("customers.txt", ios::in);
-    do{
-        f1.read( (char*)&C1, sizeof(Customer) );
+    f1.read( (char*)&C1, sizeof(Customer) );
+
+    while(!f1.eof()){
         cout<<C1.name<<" "<<C1.address<<" "<<C1.phone_no<<" "<<C1.email<<endl;
         total_cust++;
-        //ERROR: LAST OBJECT IS BEING READ TWICE
-        //Fix it
-    }while(!f1.eof());
+        f1.read( (char*)&C1, sizeof(Customer) );
+        
+    }
     cout<<"Total customers are: "<<total_cust<<endl;
     f1.close();
+}
+
+//view all bookings
+void view_all_bookings(){
+    system("clear");
+    int total_books=0;
+    ifstream f1;
+    Booking B1;
+    f1.open("bookings.txt", ios::in);
+    f1.read( (char*)&B1, sizeof(Booking) );
+    while(!f1.eof()){
+        B1.printBooking();
+        cout<<endl;
+        f1.read( (char*)&B1, sizeof(Booking) );
+        total_books++;
+    }
+    cout<<"Total Bookings are: "<<total_books<<endl;
+    f1.close();
+}
+
+class Edge;
+class GraphInt;
+class GraphFloat;
+//forward declaration
+
+bool add_edge(GraphInt &g1, GraphFloat &g2){
+    char a[30], b[30];
+    int cost;
+    float time;
+    cout<<"Enter place 1: ";
+    cin.ignore();
+    // cin.clear();
+    // fflush(stdin);
+    cin.getline(a, 30, '\n'); 
+    cout<<"Enter place 2: ";
+
+    cin.getline(b, 30, '\n'); 
+    cout<<"Enter flight cost: ";
+    cin>>cost;
+    cout<<"Enter flight time: ";
+    cin>>time;
+    Edge E(a, b, cost, time);
+    fstream f3;
+    f3.open("places.txt", ios::app);
+    f3.write( (char*)&E, sizeof(E) );
+    f3.close();
+
+    g1.addEdge(a, b, cost);
+    g2.addEdge(a, b, time);
+    cout<<"Place/Flight added successfully.\n";
+    return true;
 }
