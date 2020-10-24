@@ -7,6 +7,7 @@
 using namespace std;
 
 void visit_customer_portal();
+// ----------------TRIE--------------------
 //Trie for storing customer emails
 class trie_node{
     public:
@@ -67,6 +68,7 @@ class Trie{
     }
 };
 
+// -------------------CUSTOMERS----------------------
 class Customer{
     public:
     string name;
@@ -102,6 +104,7 @@ void initCustomers(Trie T){
     f1.close();
 }
 
+// ---------- create account ------------
 bool createAccount(Trie &T){
     system("clear");
     cin.clear();
@@ -152,20 +155,26 @@ bool createAccount(Trie &T){
     return true;
 }
 
+// --------------- BOOKINGS -------------------
 class Booking{
     public:
     string cust_name;
     string cust_email;
     string date;
-    list <string> places;
-    float amount;
+    char places[10][30]={"\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0"};
+    int amount;
     int no_of_people;
     string agent_name;
-    Booking(string name, string email, string d, list <string> p, float a, int n, string agent){
+
+    Booking(){
+        //places = {"\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0"};
+    }
+
+    void initBooking(string name, string email, string d, list <string> p, float a, int n, string agent){
         cust_email = email;
         cust_name = name;
         date = d;
-        places = p;
+        //places = p;
         amount = a;
         no_of_people = n;
         agent_name = agent;
@@ -175,11 +184,12 @@ class Booking{
         cout<<"Customer Email: "<<cust_email<<endl;
         cout<<"Date of Booking: "<<date<<endl;
         cout<<"Places included in Trip: ";
-        cout<<"No of people on trip: "<<no_of_people<<endl;
-        for(auto p: places){
-            cout<<p<<" ";
+        for(int i=0; i<10; i++){
+            if(places[i]!='\0'){
+                cout<<places[i]<<" ";
+            }
         }
-        cout<<endl;
+        cout<<"\nNo of people on trip: "<<no_of_people<<endl;
         cout<<"Total amount for Trip: "<<amount<<endl;
         cout<<"Agent Name: "<<agent_name<<endl;
     }
