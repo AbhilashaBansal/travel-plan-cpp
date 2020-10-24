@@ -1,6 +1,6 @@
 # travel_plan__
 Travel Plan Management System\
--Language Used: C++\
+-Language Used: C++
 
 # Features
 -Admin Portal\
