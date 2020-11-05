@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Boostrap  -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <!-- Font Awesome  -->
+    <!-- <script src="https://kit.fontawesome.com/5548f5ed00.js" crossorigin="anonymous"></script> -->
+    <!-- Vis JS  -->
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="./js/vis_graph.js"></script>
+    <title>Travel Plan Website</title>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark" id="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html" style="font-size: 1.2em; text-shadow: -2px 2px 2px thistle;">
+            <img src="./images/logo.png" width="50" height="50" class="d-inline-block align-top" alt="" loading="lazy">
+            Travel Planner
+            </a>
+        </div>
+    </nav>
+
+    <div class="container-fluid main" style="margin-bottom: 5%;">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="sidenav">
+                    <div><a href="index.html">About</a></div>
+                    <div><a href="graph.html">Locations Graph</a></div>
+                    <div><a href="locations.html">Locations</a></div>
+                    <div><a href="packages.html">Packages</a></div>
+                </div>
+            </div>
+            
+            <div id="graph" class="col-md-9">
+                
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container-fluid">
+          <span class="text-muted">Developed by Abhilasha Bansal & Abhay Gupta, 2020</span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    width: 100%;
+    font-size: 2em;
+}
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.main {
+    margin-top: 2%;
+}
+
+.sidenav {
+    position: fixed;
+    top: 15%;
+    height: 57vh;
+    background-color: #343a40;
+    padding: 20px;
+}
+
+.sidenav div {
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px white solid;
+}
+  
+.sidenav a {
+    text-decoration: none;
+    color: whitesmoke;
+    font-size: 1.2em;
+    display: block;    
+}
+  
+.sidenav div:hover {
+    background-color: rgba(158, 158, 158, 0.4);
+}
+
+/* index.html styles */
+#ab h1{
+    position: absolute;
+    margin: 5%;
+    top: 25%;
+    z-index: 1;
+    font-weight: bold;
+    text-shadow: -2px 2px 2px palevioletred;
+}
+#abc {
+    display: block;
+    font-size: 0.5em;
+    font-weight: unset;
+    text-shadow: none;
+    font-weight: normal;
+}
+  
+.footer {
+    width: 100%;
+    position: fixed;
+    z-index: 10;
+    padding: 1%;
+    bottom: 0;
+    background-color: #343a40;
+}
+
+/* graph.html styles */
+#graph {
+    width: 90%;
+    height: 600px;
+    background-color: rgb(176, 224, 230, 0.3);
+    padding: 1%;
+}
+
+/* location cards styles */

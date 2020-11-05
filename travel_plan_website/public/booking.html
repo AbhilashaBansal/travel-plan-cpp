@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Boostrap  -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="script.js"></script> -->
+    <script src="./js/booking.js"></script>
+    <title>Travel Plan Website</title>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" style="font-size: 1.2em; text-shadow: -2px 2px 2px thistle;">
+            <img src="./images/logo.png" width="50" height="50" class="d-inline-block align-top" alt="" loading="lazy">
+            Travel Planner
+            </a>
+        </div>
+    </nav>
+
+    <div class="container main" style="margin-bottom: 5%;">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sidenav">
+                    <div><a href="index.html">About</a></div>
+                    <div><a href="graph.html">Locations Graph</a></div>
+                    <div><a href="locations.html">Locations</a></div>
+                    <div><a href="packages.html">Packages</a></div>
+                </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-8" style="background-color: lavenderblush;">
+                <!-- code -->
+                <div id="shortest-path" style="padding: 2% 0;">
+                    <h5></h5>
+                </div>
+                <form action="/finalplan/" method="POST" name="booking-form">
+                    <div class="form-group">
+                        <label for="name">Name: </label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email: </label>
+                      <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address: </label>
+                        <input type="text" class="form-control" id="address" name="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone No: </label>
+                        <input type="number" class="form-control" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="destname">Destination/ Plan: </label>
+                        <input class="form-control" type="text" placeholder="" id="destname" name="destname" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Preferred date of Travel: </label>
+                        <input type="text" class="form-control" id="date" name="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="people">No of people: </label>
+                        <input type="number" class="form-control" id="people" name="people">
+                    </div>
+                    <div class="form-group">
+                        <label for="amt">Booking Amount: </label>
+                        <input class="form-control" type="text" placeholder="" id="amt" name="amt" readonly>
+                    </div>
+                    <button type="submit" class="btn btn-primary" formaction="/finalplan" formmethod="POST">Submit</button>
+                  </form>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+          <span class="text-muted">Developed by Abhilasha Bansal & Abhay Gupta, 2020</span>
+        </div>
+    </footer>
+</body>
+
+</html>
