@@ -1,5 +1,5 @@
 # travel_plan__
-Travel Plan Management System\
+Travel Plan Management System
 - Language Used: C++
 
 # Features
@@ -12,5 +12,8 @@ Travel Plan Management System\
 - View All Locations\
 ![all locations ss](https://github.com/AbhilashaBansal/travel_plan__/blob/main/Images/view_all_locations.png?raw=true)
 
-- Finding a cost efficient plan\
+- Find a cost efficient plan\
 ![finding a custom plan ss](https://github.com/AbhilashaBansal/travel_plan__/blob/main/Images/booking_custom_plan.png?raw=true)
+
+- Make a booking\
+![book plan/ package ss](https://github.com/AbhilashaBansal/travel_plan__/blob/main/Images/making_booking.png?raw=true)
