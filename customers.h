@@ -71,20 +71,20 @@ class Trie{
 // -------------------CUSTOMERS----------------------
 class Customer{
     public:
-    string name;
-    string address;
-    string email;
-    string phone_no;
-    string password;
+    char name[30] = {'\0'};
+    char address[30] = {'\0'};
+    char email[50] = {'\0'};
+    char phone_no[15] = {'\0'};
+    char password[20] = {'\0'};
     Customer(){
-        name = address = email = phone_no = password = "";
+        //name = address = email = phone_no = password = "";
     }
     Customer(string a, string b, string c, string d, string e){
-        name = a;
-        address = b;
-        email = c;
-        phone_no = d;
-        password = e;
+        strcpy(name, a.c_str());
+        strcpy(address, b.c_str());
+        strcpy(email, c.c_str());
+        strcpy(phone_no, d.c_str());
+        strcpy(password, e.c_str());
     }
 };
 
@@ -92,7 +92,7 @@ void initCustomers(Trie T){
     fstream f1;
     Customer C;
 
-    f1.open("customers.txt", ios::in);
+    f1.open("customers.txt", ios::in||ios::binary);
     //int i=0;
     do{
         f1.read( (char*)&C, sizeof(Customer) );
@@ -140,7 +140,7 @@ bool createAccount(Trie &T){
 
     //writing customer details in file 'customers.txt'
     fstream f1;
-    f1.open("customers.txt", ios::app);
+    f1.open("customers.txt", ios::app||ios::binary);
     f1.write( (char*)&C1, sizeof(C1) );
     f1.close();
 
@@ -158,26 +158,26 @@ bool createAccount(Trie &T){
 // --------------- BOOKINGS -------------------
 class Booking{
     public:
-    string cust_name;
-    string cust_email;
-    string date;
+    char cust_name[30];
+    char cust_email[50];
+    char date[20];
     char places[10][30]={"\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0"};
     int amount;
     int no_of_people;
-    string agent_name;
+    char agent_name[30];
 
     Booking(){
         //places = {"\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0", "\0"};
     }
 
     void initBooking(string name, string email, string d, list <string> p, float a, int n, string agent){
-        cust_email = email;
-        cust_name = name;
-        date = d;
+        strcpy(cust_email, email.c_str());
+        strcpy(cust_name, name.c_str());
+        strcpy(date, d.c_str());
         //places = p;
         amount = a;
         no_of_people = n;
-        agent_name = agent;
+        strcpy(agent_name, agent.c_str());
     }
     void printBooking(){
         cout<<"Customer Name: "<<cust_name<<endl;

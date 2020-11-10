@@ -7,6 +7,7 @@
 #include "admin.h"
 #include <cstdlib>
 #include <stdlib.h>
+#include <ctime>
 using namespace std;
 
 //global variables
@@ -25,7 +26,7 @@ void enter(); //forward declaration
 
 void initLocations(){
     string locations[50] = {
-        "Delhi", "Mumbai", "Hongkong", "Tokyo", "Bangkok", "Singapore", "Sydney (Australia)", "Melbourne (Australia)",
+        "Delhi", "Mumbai", "Hong Kong", "Tokyo", "Bangkok", "Singapore", "Sydney (Australia)", "Melbourne (Australia)",
         "Dubai", "Cairo", "Moscow", "Stockholm", "Seoul", "Canada", "San Francisco (USA)",
         "Washington DC (USA)", "LA (USA)", "Chicago (USA)", "New York (USA)", "Cape Town (South Africa)", "Rio (Brazil)", "Santiago", "Mexico City",
         "Peru", "Miami (USA)", "London", "Berlin (Germany)", "Rome", "Paris", "Spain", "Havana"
@@ -38,11 +39,11 @@ void initLocations(){
 
 void print_path(string dest){
     if(parent[dest]==dest){
-        cout<<dest<<"-->";
+        cout<<dest<<" -->";
         return;
     }
     print_path(parent[dest]);
-    cout<<dest<<"-->";
+    cout<<dest<<" -->";
 }
 
 // -------------- Admin Portal -------------------
@@ -52,7 +53,7 @@ void visit_admin_portal(){
     if(success){
         admin_logged_in = true;
         system("clear");
-        cout<<"WELCOME TO ADMIN PORTAL\n";
+        cout<<"*****---------- WELCOME TO ADMIN PORTAL ----------*****\n\n";
         int x;
         cout<<"1: Add a Location\n";
         cout<<"2: View all Customers\n";
@@ -73,7 +74,7 @@ void visit_admin_portal(){
             case 2: {
                 system("clear");
                 view_all_customers();
-                cout<<"Press any key, followed by 'enter' key, to navigate back.\n";
+                cout<<"\nPress any key, followed by 'enter' key, to navigate back.\n";
                 char c;
                 cin>>c;
                 visit_admin_portal();
@@ -81,7 +82,7 @@ void visit_admin_portal(){
             }
             case 3: {
                 view_all_bookings();
-                cout<<"Press any key, followed by 'enter' key, to navigate back.\n";
+                cout<<"\nPress any key, followed by 'enter' key, to navigate back.\n";
                 char c;
                 cin>>c;
                 visit_admin_portal();
@@ -96,26 +97,25 @@ void visit_admin_portal(){
             case 5: {
                 system("clear");
                 admin_logged_in = false;
-                cout<<"Thank you for using the Travel Plan Management Software!\n";
+                cout<<"\nThank you for using the Travel Plan Management Software!\n";
                 cout<<"Built by ABHILASHA BANSAL & ABHAY GUPTA\n";
                 cout<<"Exitting now ...\n";
                 break;
             }
             default: {
-                cout<<"Invalid Input\n";
+                cout<<"\nInvalid Input\n";
                 enter();
             }
         }
         
     }
     else{
-        cout<<"Login failed, please enter correct details again.\n";
+        cout<<"\nLogin failed, please go back & enter correct details again.\n";
         cout<<"Press any key, followed by 'enter' key, to navigate back.\n";
         char c;
         cin>>c;
         enter();
     }
-    //cout<<"This portal is still under development.\n";
 }
 
 bool book_custom(Booking &B, string dest); 
@@ -124,12 +124,13 @@ bool book_custom(Booking &B, string dest);
 void find_a_plan(){
     system("clear");
     string dest;
+    cout<<"*****---------- CUSTOM PLAN ----------*****\n";
     cout<<"Enter the name of a destination in correct format, to find a plan: ";
     cin.ignore();
     getline(cin, dest);
 
     if(m.count(dest)==0){
-        cout<<"Location not found!!\n";
+        cout<<"\nLocation not found!!\n";
         cout<<"Redirecting you back, press any key followed by 'Enter' to proceed.\n";
         char c;
         cin>>c;
@@ -137,10 +138,12 @@ void find_a_plan(){
         return;
     }
     else{
-        cout<<"Flight cost: "<<dist[dest]<<endl;
-        cout<<"The minimum cost plan is for: "<<(2*dist[dest])+20000<<"INR.\n";
+        cout<<"Location found!\n";
+        cout<<"\nFlight cost: "<<dist[dest]<<endl;
+        cout<<"The minimum cost plan is for: "<<(2*dist[dest])+20000<<"INR.\n\n";
         print_path(dest);
-        cout<<endl;
+        cout<<endl<<endl;
+        cout<<"Enter a choice to proceed further: \n";
         cout<<"1: Book this plan\n";
         cout<<"2: Enter another destination\n";
         cout<<"3: Navigate back\n";
@@ -152,7 +155,7 @@ void find_a_plan(){
             bool done = book_custom(B1, dest);
             if(done){
             system("clear");
-            cout<<"BOOKING CONFIRMED\n";
+            cout<<"\n*****---------- BOOKING CONFIRMED ----------*****\n";
             cout<<"Your agent will get in touch with you soon!\n";
             B1.printBooking();
             cout<<"\nRedirecting you back, press any key followed by 'Enter' to proceed.\n";
@@ -162,7 +165,7 @@ void find_a_plan(){
             return;
             }
             else{
-                cout<<"\nSome error occured. Booking not done. Please try again.\n";
+                cout<<"\n\nSome error occured. Booking not done. Please try again.\n";
                 cout<<"Redirecting you back, press any key followed by 'Enter' to proceed.\n";
                 char c;
                 cin>>c;
@@ -189,24 +192,24 @@ bool book_premade_package(Plan P, Booking &B){
     cin.clear();
     fflush(stdin);
     string email;
-    cout<<"PS: You need to have a valid customer account to make a booking.\n";
+    cout<<"\nPS: You need to have a valid customer account to make a booking.\n";
     cout<<"If you dont have an account press any key followed by 'enter', and you'd be redirected.\n";
     cout<<"Enter your email: \n";
     getline(cin, email);
     bool exists = CT.search(email);
     if(exists){
-        cout<<"Enter your name: ";
-        getline(cin, B.cust_name);
-        B.cust_email = email;
+        cout<<"\nEnter your name: ";
+        cin.getline(B.cust_name, 30, '\n');
+        strcpy(B.cust_email, email.c_str());
         int i=0;
         for(string s: P.l){
             strcpy(B.places[i], s.c_str());
             i++;
         }
         //B.places = P.l;
-        //B.agent_name = assign_Agent(Ag, 10);
+        strcpy(B.agent_name, assign_Agent(Ag, 10).c_str());
         cout<<"Enter preferred date of travel: ";
-        getline(cin, B.date);
+        cin.getline(B.date, 20, '\n');
         cout<<"Enter no of people: ";
         cin>>B.no_of_people;
         B.amount = (P.cost)*B.no_of_people;
@@ -216,7 +219,7 @@ bool book_premade_package(Plan P, Booking &B){
         f1.close();
     }
     else{
-        cout<<"Create a valid account to make the booking.\n";
+        cout<<"\nCreate a valid account to make the booking.\n";
         return false;
     }
     return true;
@@ -227,19 +230,19 @@ bool book_custom(Booking &B, string dest){
     cin.clear();
     fflush(stdin);
     string email;
-    cout<<"PS: You need to have a valid customer account to make a booking.\n";
+    cout<<"\nPS: You need to have a valid customer account to make a booking.\n";
     cout<<"If you dont have an account press any key followed by 'enter', and you'd be redirected.\n";
     cout<<"Enter your email: \n";
     getline(cin, email);
     bool exists = CT.search(email);
     if(exists){
-        cout<<"Enter your name: ";
-        getline(cin, B.cust_name);
-        B.cust_email = email;
+        cout<<"\nEnter your name: ";
+        cin.getline(B.cust_name, 30, '\n');
+        strcpy(B.cust_email, email.c_str());
         strcpy(B.places[0], dest.c_str());
-        B.agent_name = assign_Agent(Ag, 10);
+        strcpy(B.agent_name, assign_Agent(Ag, 10).c_str());
         cout<<"Enter preferred date of travel: ";
-        getline(cin, B.date);
+        cin.getline(B.date, 20, '\n');
         cout<<"Enter no of people: ";
         cin>>B.no_of_people;
         int cost = (dist[dest]*2) + 20000;
@@ -250,7 +253,7 @@ bool book_custom(Booking &B, string dest){
         f1.close();
     }
     else{
-        cout<<"Create a valid account to make the booking.\n";
+        cout<<"\nCreate a valid account to make the booking.\n";
         return false;
     }
     return true;
@@ -263,27 +266,28 @@ void book_a_package(){
         //displaying available packages
         cout<<i+1<<" "<<P[i].name_of_plan<<endl;
         cout<<"Price per person: "<<P[i].cost<<endl;
-        cout<<"No of days: "<<P[i].no_of_days;
+        cout<<"No of days: "<<P[i].no_of_days<<endl;
         cout<<"Places: ";
         for(string s: P[i].l){
             cout<<s<<" ";
         }
         cout<<"\n\n";
     }
+    cout<<"\nEnter a choice to proceed further: \n";
     cout<<"1: Book one of these plans\n";
     cout<<"2: Navigate back\n";
     int c;
     cin>>c;
     if(c==1){
         int choice;
-        cout<<"Enter the no of the plan you want to book: ";
+        cout<<"\nEnter the no of the plan you want to book: ";
         cin>>choice;
         Booking B1;
         bool done = book_premade_package(P[choice-1], B1);
         cout<<"Here\n";
         if(done){
             system("clear");
-            cout<<"BOOKING CONFIRMED\n";
+            cout<<"\n*****---------- BOOKING CONFIRMED ----------*****\n";
             cout<<"Your agent will get in touch with you soon!\n";
             B1.printBooking();
             cout<<"\nRedirecting you back, press any key followed by 'Enter' to proceed.\n";
@@ -310,7 +314,8 @@ void book_a_package(){
 //Customer Login
 bool customer_login(string &email){
     string a, password;
-    cout<<"Enter your email: ";
+    cout<<"*****---------- CUSTOMER LOGIN ----------*****";
+    cout<<"\nEnter your email: ";
     cin>>a;
     email = a;
     cout<<"Enter password: ";
@@ -333,6 +338,7 @@ bool customer_login(string &email){
 // -------------- Customer Portal -----------------
 void visit_customer_portal(){
     system("clear");
+    cout<<"\n*****---------- WELCOME TO THE CUSTOMER PORTAL ----------*****\n\n";
     int x;
     cout<<"1: Create an account\n";
     cout<<"2: View all locations\n";
@@ -350,12 +356,18 @@ void visit_customer_portal(){
         }
         case 2: {
             system("clear");
-            cout<<"AVAILABLE LOCATIONS\n";
+            cout<<"\n*****---------- AVAILABLE LOCATIONS ----------*****\n";
+            int i=0;
             for(auto p: m){
-                cout<<p.first<<"  ";
+                i++;
+                if(i%5==1){
+                    cout<<endl;
+                }
+                cout<<left;
+                cout<<setw(20)<<p.first<<"  ";
             }
             char x;
-            cout<<"\nPress any key, followed by 'enter' key, to navigate back.\n";
+            cout<<"\n\nPress any key, followed by 'enter' key, to navigate back.\n";
             cin>>x;
             cin.clear();
             fflush(stdin);
@@ -376,6 +388,7 @@ void visit_customer_portal(){
             bool login_success = customer_login(email);
             if(login_success){
                 int bookings;
+                cout<<"\n*****---------- YOUR BOOKINGS ----------*****\n";
                 fstream f1;
                 f1.open("bookings.txt", ios::in);
                 Booking B;
@@ -389,7 +402,7 @@ void visit_customer_portal(){
                     f1.read( (char*)&B, sizeof(Booking) );
                 }
                 if(bookings==0){
-                    cout<<"No bookings found for this account!\n";
+                    cout<<"\nNo bookings found for this account!\n";
                 }
                 f1.close();
                 cout<<"Press any key followed by 'enter' to navigate back.\n";
@@ -398,7 +411,7 @@ void visit_customer_portal(){
                 visit_customer_portal();
             }
             else{
-                cout<<"Login failed. Please try again.\n";
+                cout<<"\nLogin failed. Please try again.\n";
                 cout<<"Redirecting you. Press any key followed by 'enter' to continue.\n";
                 char c;
                 cin>>c;
@@ -412,7 +425,7 @@ void visit_customer_portal(){
         }
         case 7: {
             system("clear");
-            cout<<"Thank you for using the Travel Plan Management Software!\n";
+            cout<<"\nThank you for using the Travel Plan Management Software!\n";
             cout<<"Built by ABHILASHA BANSAL & ABHAY GUPTA\n";
             cout<<"Exitting now ...\n";
             break;
@@ -431,6 +444,7 @@ void visit_customer_portal(){
 void enter(){
     int a;
     system("clear");
+    cout<<"\n*****---------- WELCOME ----------*****\n\n";
     cout<<"1: Go to Admin Portal\n";
     cout<<"2: Go to User Portal\n";
     cout<<"3: Exit\n";
@@ -446,13 +460,13 @@ void enter(){
         }
         case 3: {
             system("clear");
-            cout<<"Thank you for using the Travel Plan Management Software!\n";
+            cout<<"\nThank you for using the Travel Plan Management Software!\n";
             cout<<"Built by ABHILASHA BANSAL & ABHAY GUPTA\n";
             cout<<"Exitting now ...\n";
             break;
         }
         default: {
-            cout<<"Invalid Input\n";
+            cout<<"\nInvalid Input\n";
             enter();
         }
     }
@@ -488,7 +502,7 @@ int main(){
     //initialising travel agents
     initAgents(Ag, agent_count);
     cout<<agent_count<<" agents found!\n";
-    cout<<Ag[0].name<<endl;
+    //cout<<Ag[0].name<<endl;
 
     //initialising available travel locations
     initLocations();
@@ -497,7 +511,7 @@ int main(){
     }
     cout<<endl;
 
-    cout<<&(CT)<<endl;
+    //cout<<&(CT)<<endl;
     //initialisng customers
     initCustomers(CT);
 

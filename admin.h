@@ -102,6 +102,7 @@ string assign_Agent(Agent A[], int no=10){
 // -----------------ADMIN FUNCTIONS------------------
 //view all customers
 void view_all_customers(){
+    cout<<"*****---------- ALL CUSTOMERS ----------*****\n\n";
     int total_cust=0;
     ifstream f1;
     Customer C1;
@@ -109,18 +110,20 @@ void view_all_customers(){
     f1.read( (char*)&C1, sizeof(Customer) );
 
     while(!f1.eof()){
-        cout<<C1.name<<" "<<C1.address<<" "<<C1.phone_no<<" "<<C1.email<<endl;
+        cout<<left;
+        cout<<setw(30)<<C1.name<<" "<<setw(30)<<C1.address<<" "<<setw(15)<<C1.phone_no<<" "<<setw(30)<<C1.email<<endl;
         total_cust++;
         f1.read( (char*)&C1, sizeof(Customer) );
         
     }
-    cout<<"Total customers are: "<<total_cust<<endl;
+    cout<<"\nTotal customers are: "<<total_cust<<endl;
     f1.close();
 }
 
 //view all bookings
 void view_all_bookings(){
     system("clear");
+    cout<<"*****---------- ALL BOOKINGS ----------*****\n\n";
     int total_books=0;
     ifstream f1;
     Booking B1;
